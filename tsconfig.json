@@ -11,6 +11,7 @@
       "@/pages/*": ["src/pages/*"],
       "@/hooks/*": ["src/hooks/*"],
       "@/utils/*": ["src/utils/*"],
+      "@/consts/*": ["src/consts/*"],
     },
 
     /* Bundler mode */

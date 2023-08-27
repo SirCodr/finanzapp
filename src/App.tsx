@@ -1,5 +1,9 @@
+import { useTranslation } from 'react-i18next'
+
 function App () {
-  return <div>Finanzapp</div>
+  const { t } = useTranslation('welcome')
+
+  return <div>{t('title')}</div>
 }
 
 export default App
