@@ -1,0 +1,6 @@
+{
+  "loading": {
+    "default": "Loading",
+    "suspense": "Loading..."
+  }
+}
