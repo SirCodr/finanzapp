@@ -1,22 +1,19 @@
 import { getAllTransactions } from '@services/transactions'
-import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 
 const Transaction = () => {
-  const [data, setData] = useState([])
+  const { isLoading, error, data } = useQuery({
+    queryKey: ['transactions'],
+    queryFn: getAllTransactions
+  })
 
-  useEffect(() => {
-    const getData = async () => {
-      const dataFromDb = await getAllTransactions()
-      console.log(dataFromDb)
-    }
-    getData()
-  }), []
+  if (isLoading) return <span>Loading</span>
 
   return (
-    <div>
-      <pre>
-        {JSON.stringify(data)}
-      </pre>
+    <div className='flex flex-col flex-wrapgap-y-3'>
+      {data.map((item, index) => (
+        <pre key={index}>{JSON.stringify(item)}</pre>
+      ))}
     </div>
   )
 }
