@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Route, Routes } from 'react-router-dom'
 
 const Welcome = React.lazy(() => import('./pages/Welcome'))
+const Transactions = React.lazy(() => import('./pages/Transactions'))
 const PageNotFound = React.lazy(() => import('./components/PageNotFound'))
 
 function App () {
@@ -11,6 +12,7 @@ function App () {
     <Suspense fallback={<div>{t('loading.suspense')}</div>}>
       <Routes>
         <Route path='/' element={<Welcome />} />
+        <Route path='transactions' element={<Transactions />} />
         <Route path='*' element={<PageNotFound />} />
     </Routes>
     </Suspense>
