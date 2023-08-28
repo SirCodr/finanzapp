@@ -2,7 +2,7 @@ import { supabase } from "/src/supabaseClient"
 
 export const getAllTransactions = async () => {
   try {
-    const { data, error } = await supabase.rpc('Get_all_transactions', {
+    const { data, error } = await supabase.rpc('get_all_transactions', {
       lang_code: 'es'
     })
 
