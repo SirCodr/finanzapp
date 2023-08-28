@@ -1,4 +1,4 @@
-import { supabase } from "/src/supabaseClient"
+import { supabase } from '@src/supabaseClient'
 
 export const getAllTransactions = async () => {
   try {
