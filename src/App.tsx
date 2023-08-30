@@ -4,7 +4,8 @@ import { Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout'
 
 const Welcome = React.lazy(() => import('./pages/Welcome'))
-const Transactions = React.lazy(() => import('./pages/Transactions'))
+const TransactionsPage = React.lazy(() => import('./pages/transactions'))
+const CreateTransactionPage = React.lazy(() => import('./pages/transactions/Create'))
 const PageNotFound = React.lazy(() => import('./components/PageNotFound'))
 
 function App () {
@@ -14,7 +15,8 @@ function App () {
       <Layout>
         <Routes>
           <Route path='/' element={<Welcome />} />
-          <Route path='transactions' element={<Transactions />} />
+          <Route path='transactions' element={<TransactionsPage />} />
+          <Route path='transactions/create' element={<CreateTransactionPage />} />
           <Route path='*' element={<PageNotFound />} />
       </Routes>
       </Layout>

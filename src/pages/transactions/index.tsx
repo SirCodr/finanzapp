@@ -3,7 +3,7 @@ import TransactionItem from '@src/components/DataTable/TransactionItem'
 import { useQuery } from '@tanstack/react-query'
 import { DataScroller } from 'primereact/datascroller'
 
-const Transaction = () => {
+const TransactionsPage = () => {
   const { isLoading, error, data } = useQuery({
     queryKey: ['transactions'],
     queryFn: async () => await getAllTransactionsByUser(1)
@@ -19,4 +19,4 @@ const Transaction = () => {
     </div>
   )
 }
-export default Transaction
+export default TransactionsPage
