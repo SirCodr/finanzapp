@@ -423,6 +423,21 @@ export interface Database {
           date: string
         }[]
       }
+      get_all_transactions_by_user: {
+        Args: {
+          user_id_param: number
+          lang_code: string
+        }
+        Returns: {
+          id: number
+          transaction_type: string
+          transaction_category: string
+          origin_account_type: string
+          description: string
+          amount: string
+          date: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
