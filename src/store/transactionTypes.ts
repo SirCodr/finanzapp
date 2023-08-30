@@ -1,10 +1,16 @@
+import type { TransactionType } from '@src/types/transactions'
 import { create } from 'zustand'
 
 interface TransactionTypeState {
-  transactionTypes: string[]
+  transactionTypes: TransactionType[]
+  setTransactionTypes: (types: TransactionType[]) => void
 }
 
-const useTransactionTypeStore = create<TransactionTypeState>()((set) => ({
-  transactionTypes: [],
-  setTransactionTypes: (types: string[]) => { set(() => ({ transactionTypes: types })) }
-}))
+export const useTransactionTypeStore = create<TransactionTypeState>()(
+  (set) => ({
+    transactionTypes: [],
+    setTransactionTypes: (types) => {
+      set(() => ({ transactionTypes: types }))
+    }
+  })
+)
