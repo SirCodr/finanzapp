@@ -1,0 +1,10 @@
+{
+  "newTransaction": "New transaction",
+  "selectAccounType": "Selected account type",
+  "amount": "Amount",
+  "transactionType": "Transaction type",
+  "accountType": "Account type",
+  "description": "Description",
+  "date": "Date",
+  "save": "Save"
+}

@@ -1,0 +1,10 @@
+{
+  "newTransaction": "Nueva transacción",
+  "selectAccounType": "Seleccione tipo de cuenta",
+  "amount": "Valor",
+  "transactionType": "Tipo de transacción",
+  "accountType": "Tipo de cuenta",
+  "description": "Descripción",
+  "date": "Fecha",
+  "save": "Guardar"
+}
