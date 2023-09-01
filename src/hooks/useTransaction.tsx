@@ -29,8 +29,25 @@ const useTransaction = () => {
     setTransaction({ ...transaction, [propName]: value })
   }
 
+  const handleTransactionCreation = () => {
+    const dataSend = {...transaction}
+
+    for (const key in dataSend) {
+      const value = dataSend[key]
+
+      switch (key) {
+        case 'amount':
+          dataSend.amount = dataSend.amount.toString()
+          break
+
+        case 'date':
+          //TODO: Add luxon and convert date to string
+      }
+    }
+  }
+
   return (
-    { transaction, handleTransactionTypesLoad, handleTransactionChange }
+    { transaction, handleTransactionTypesLoad, handleTransactionChange, handleTransactionCreation }
   )
 }
 export default useTransaction

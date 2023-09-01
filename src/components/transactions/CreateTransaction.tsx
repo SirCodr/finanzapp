@@ -1,5 +1,4 @@
 import { addLocale } from 'primereact/api'
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SelectButton } from 'primereact/selectbutton'
 import { InputText } from 'primereact/inputtext'
@@ -9,14 +8,15 @@ import { InputNumber } from 'primereact/inputnumber'
 import { type TransactionType } from '@src/types/transactions'
 import Button from '../tailwind-button'
 import useTransaction from '@src/hooks/useTransaction'
-
+import { useRef } from 'react'
 interface Props {
   transactionTypes: TransactionType[]
 }
 
 const TransactionCreateForm = ({ transactionTypes }: Props) => {
+  const formRef = useRef(null)
   const { t, i18n } = useTranslation(['transactions', 'results'])
-  const { transaction, handleTransactionChange } = useTransaction()
+  const { transaction, handleTransactionChange, handleTransactionCreation } = useTransaction()
 
   addLocale('es', {
     firstDayOfWeek: 1,
@@ -64,26 +64,30 @@ const TransactionCreateForm = ({ transactionTypes }: Props) => {
   })
 
   return (
-    <form className='flex flex-col gap-y-2'>
+    <form className='flex flex-col gap-y-2' ref={formRef}>
       <InputNumber
-        inputId='amount'
+        name='amount'
         value={Number(transaction.amount)}
         onValueChange={(e) => { handleTransactionChange('amount', e.value) }}
+        // onValueChange={(e) => { console.log(e) }}
         mode='currency'
         currency='USD'
         locale='en-US'
         minFractionDigits={0}
         placeholder={t('transactions:amount')}
+        required
       />
       <SelectButton
+        name='transaction_type_id'
         value={transaction.transaction_type_id}
         onChange={(e) => { handleTransactionChange('transaction_type_id', e.value) }}
         options={transactionTypes}
         optionLabel='name'
         optionValue='id'
+        required
       />
       <Dropdown
-        inputId='fromAccountType'
+        name='origin_account_type_id'
         value={transaction.origin_account_type_id}
         onChange={(e) => { handleTransactionChange('origin_account_type_id', e.value) }}
         options={[]}
@@ -91,18 +95,20 @@ const TransactionCreateForm = ({ transactionTypes }: Props) => {
         placeholder={t('transactions:selectAccounType')}
         className='w-full md:w-14rem'
         emptyMessage={t('results:noResultsFouund')}
+        required
       />
-      <InputText id='description' value={transaction.description} onChange={(e) => { handleTransactionChange('description', e.target.value) }} placeholder={t('transactions:description')} />
+      <InputText name='description' value={transaction.description} onChange={(e) => { handleTransactionChange('description', e.target.value) }} placeholder={t('transactions:description')} />
       {/* TODO: Default value is today day */}
       <Calendar
-        id='date'
+        name='date'
         value={transaction.date}
         onChange={(e) => { handleTransactionChange('date', e.value) }}
         locale={i18n.language}
         placeholder={t('transactions:date')}
         showIcon
+        required
       />
-      <Button label={t('transactions:save')} />
+      <Button label={t('transactions:save')} type='submit' onClick={handleTransactionCreation} />
       </form>
   )
 }

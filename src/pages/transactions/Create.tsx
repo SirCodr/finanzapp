@@ -18,7 +18,7 @@ const CreateTransactionPage = () => {
   })
 
   useEffect(() => {
-    return async () => { await queryClient.cancelQueries('transactionTypes') }
+    return () => { queryClient.cancelQueries('transactionTypes') }
   }, [])
 
   if (error) return <span>Error</span>
@@ -28,7 +28,7 @@ const CreateTransactionPage = () => {
   return (
     <article className='flex flex-col items-center gap-y-3 w-full'>
       <header>{t('transactions:newTransaction')}</header>
-        <TransactionCreateForm transactionTypes={transactionTypes} />
+        <TransactionCreateForm transactionTypes={transactionTypes ?? []} />
     </article>
   )
 }
