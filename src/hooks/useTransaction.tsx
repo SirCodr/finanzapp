@@ -1,5 +1,8 @@
+import { DATE_FORMAT } from '@src/consts/dateFormats'
 import { getAllTransactionTypes } from '@src/services/transactions'
 import { type TransactionCreateOptionsType, type TransactionCreateType, type TransactionType } from '@src/types/transactions'
+import { getFormattedDate } from '@src/utils/date'
+import { DateTime } from 'luxon'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -30,7 +33,7 @@ const useTransaction = () => {
   }
 
   const handleTransactionCreation = () => {
-    const dataSend = {...transaction}
+    const dataSend = { ...transaction }
 
     for (const key in dataSend) {
       const value = dataSend[key]
@@ -40,10 +43,15 @@ const useTransaction = () => {
           dataSend.amount = dataSend.amount.toString()
           break
 
-        case 'date':
-          //TODO: Add luxon and convert date to string
+        case 'date': {
+          const localDate = DateTime.fromJSDate(value).toFormat(DATE_FORMAT)
+          const formattedDate = getFormattedDate(localDate)
+          dataSend.date = formattedDate
+        }
       }
     }
+
+    console.log(dataSend)
   }
 
   return (
