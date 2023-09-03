@@ -1,19 +1,20 @@
 import { DATE_FORMAT } from '@src/consts/dateFormats'
-import { getAllTransactionTypes } from '@src/services/transactions'
-import { type TransactionCreateOptionsType, type TransactionCreateType, type TransactionType } from '@src/types/transactions'
+import { InsertTransactionAndReturnId, getAllAccountTypes, getAllTransactionTypes } from '@src/services/transactions'
+import { AccountTypeEntity, type TransactionCreateOptionsType, type TransactionType, type TransactionEntity } from '@src/types/transactions'
 import { getFormattedDate } from '@src/utils/date'
 import { DateTime } from 'luxon'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const transactionInitialState: TransactionCreateType = {
+const transactionInitialState: TransactionEntity = {
   amount: '0',
-  transaction_category_id: 0,
-  transaction_type_id: 0,
-  origin_account_type_id: 0,
+  transaction_category_id: 1,
+  transaction_type_id: 1,
+  origin_account_type_id: 1,
   destination_account_type_id: null,
   description: '',
-  date: ''
+  date: '',
+  user_id: 1
 }
 
 const useTransaction = () => {
@@ -26,13 +27,19 @@ const useTransaction = () => {
     return transactionTypesFound
   }
 
+  const handleAccountTypesLoad = async (): Promise<AccountTypeEntity[]> => {
+    const accountTypesFound = await getAllAccountTypes(i18n.language)
+
+    return accountTypesFound
+  }
+
   const handleTransactionChange = (propName: TransactionCreateOptionsType, value: any) => {
     if (value === null || value === undefined) value = ''
 
     setTransaction({ ...transaction, [propName]: value })
   }
 
-  const handleTransactionCreation = () => {
+  const handleTransactionCreation = async () => {
     const dataSend = { ...transaction }
 
     for (const key in dataSend) {
@@ -52,10 +59,11 @@ const useTransaction = () => {
     }
 
     console.log(dataSend)
+    await InsertTransactionAndReturnId(dataSend)
   }
 
   return (
-    { transaction, handleTransactionTypesLoad, handleTransactionChange, handleTransactionCreation }
+    { transaction, handleTransactionTypesLoad, handleAccountTypesLoad, handleTransactionChange, handleTransactionCreation }
   )
 }
 export default useTransaction

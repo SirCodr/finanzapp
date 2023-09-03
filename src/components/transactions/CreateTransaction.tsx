@@ -5,15 +5,16 @@ import { InputText } from 'primereact/inputtext'
 import { Calendar } from 'primereact/calendar'
 import { Dropdown } from 'primereact/dropdown'
 import { InputNumber } from 'primereact/inputnumber'
-import { type TransactionType } from '@src/types/transactions'
+import { AccountTypeEntity, type TransactionType } from '@src/types/transactions'
 import Button from '../tailwind-button'
 import useTransaction from '@src/hooks/useTransaction'
 import { useRef } from 'react'
 interface Props {
   transactionTypes: TransactionType[]
+  accountTypes: AccountTypeEntity[]
 }
 
-const TransactionCreateForm = ({ transactionTypes }: Props) => {
+const TransactionCreateForm = ({ transactionTypes, accountTypes }: Props) => {
   const formRef = useRef(null)
   const { t, i18n } = useTranslation(['transactions', 'results'])
   const { transaction, handleTransactionChange, handleTransactionCreation } = useTransaction()
@@ -69,7 +70,6 @@ const TransactionCreateForm = ({ transactionTypes }: Props) => {
         name='amount'
         value={Number(transaction.amount)}
         onValueChange={(e) => { handleTransactionChange('amount', e.value) }}
-        // onValueChange={(e) => { console.log(e) }}
         mode='currency'
         currency='USD'
         locale='en-US'
@@ -90,8 +90,9 @@ const TransactionCreateForm = ({ transactionTypes }: Props) => {
         name='origin_account_type_id'
         value={transaction.origin_account_type_id}
         onChange={(e) => { handleTransactionChange('origin_account_type_id', e.value) }}
-        options={[]}
+        options={accountTypes}
         optionLabel='name'
+        optionValue='id'
         placeholder={t('transactions:selectAccounType')}
         className='w-full md:w-14rem'
         emptyMessage={t('results:noResultsFouund')}
@@ -108,7 +109,7 @@ const TransactionCreateForm = ({ transactionTypes }: Props) => {
         showIcon
         required
       />
-      <Button label={t('transactions:save')} type='submit' onClick={handleTransactionCreation} />
+      <Button label={t('transactions:save')} type='button' onClick={handleTransactionCreation} />
       </form>
   )
 }

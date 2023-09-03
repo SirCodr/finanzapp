@@ -5,30 +5,42 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const CreateTransactionPage = () => {
-  const { handleTransactionTypesLoad } = useTransaction()
+  const { handleTransactionTypesLoad, handleAccountTypesLoad } = useTransaction()
   const { t } = useTranslation('transactions')
   const queryClient = useQueryClient()
+
   const {
-    isLoading,
-    error,
+    isLoading: isTransactionTypesLoading,
+    error: transactionTypesError,
     data: transactionTypes
   } = useQuery({
     queryKey: ['transactionTypes'],
     queryFn: handleTransactionTypesLoad
   })
 
+  const {
+    isLoading: isAccountTypesLoading,
+    error: accountTypesError,
+    data: accountTypes
+  } = useQuery({
+    queryKey: ['accountTypes'],
+    queryFn: handleAccountTypesLoad
+  })
+
   useEffect(() => {
-    return () => { queryClient.cancelQueries('transactionTypes') }
+    return () => { 
+      queryClient.cancelQueries(['transactionTypes', 'accountTypes'])
+     }
   }, [])
 
-  if (error) return <span>Error</span>
+  if (transactionTypesError || accountTypesError) return <span>Error</span>
 
-  if (isLoading) return <span>Loading</span>
+  if (isTransactionTypesLoading || isAccountTypesLoading) return <span>Loading</span>
 
   return (
     <article className='flex flex-col items-center gap-y-3 w-full'>
       <header>{t('transactions:newTransaction')}</header>
-        <TransactionCreateForm transactionTypes={transactionTypes ?? []} />
+        <TransactionCreateForm transactionTypes={transactionTypes ?? []} accountTypes={accountTypes ?? []} />
     </article>
   )
 }

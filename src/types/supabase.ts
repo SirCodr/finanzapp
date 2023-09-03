@@ -409,6 +409,15 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      get_all_account_types: {
+        Args: {
+          lang_code: string
+        }
+        Returns: {
+          id: number
+          name: string
+        }[]
+      }
       get_all_languages: {
         Args: {
           lang_code: string
@@ -456,6 +465,19 @@ export interface Database {
           amount: string
           date: string
         }[]
+      }
+      insert_transaction_and_return_id: {
+        Args: {
+          transaction_type_id: number
+          transaction_category_id: number
+          origin_account_type_id: number
+          destination_account_type_id: number
+          user_id: number
+          description: string
+          amount: string
+          date: string
+        }
+        Returns: number
       }
     }
     Enums: {
