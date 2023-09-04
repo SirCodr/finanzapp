@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './components/routes/ProtectedRoute'
+import Login from './pages/login'
 
 const Welcome = React.lazy(async () => await import('./pages/Welcome'))
 const TransactionsPage = React.lazy(async () => await import('./pages/transactions'))
@@ -19,6 +20,7 @@ function App () {
             <Route path='transactions/create' element={<CreateTransactionPage />} />
             <Route path='*' element={<PageNotFound />} />
           </Route>
+          <Route path='login' element={<Login />} />
       </Routes>
     </Suspense>
   )
