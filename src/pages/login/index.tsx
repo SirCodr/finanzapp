@@ -20,7 +20,7 @@ const Login = () => {
   }
 
   return (
-    <div>
+    <div className='w-screen h-screen grid place-items-center'>
       <form action=''>
         <AuthButton userLogged={false} />
       </form>

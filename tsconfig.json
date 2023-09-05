@@ -15,6 +15,7 @@
       "@consts/*": ["src/consts/*"],
       "@services/*": ["src/services/*"],
       "@store/*": ["src/store/*"],
+      "@icons/*": ["src/components/icons/*"],
     },
 
     /* Bundler mode */
