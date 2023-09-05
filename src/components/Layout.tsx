@@ -6,7 +6,7 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   return (
-    <div className='grid grid-rows-[60px_1fr] w-full h-full'>
+    <div className='grid grid-rows-[60px_1fr] w-full h-screen'>
       <Header />
       {children}
     </div>

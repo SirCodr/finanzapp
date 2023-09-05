@@ -6,6 +6,7 @@ import './i18n/config'
 import './index.css'
 import 'primereact/resources/themes/lara-light-indigo/theme.css'
 import 'primereact/resources/primereact.min.css'
+import 'primeicons/primeicons.css'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 
 const queryClient = new QueryClient({

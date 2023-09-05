@@ -5,10 +5,10 @@ import { InputText } from 'primereact/inputtext'
 import { Calendar } from 'primereact/calendar'
 import { Dropdown } from 'primereact/dropdown'
 import { InputNumber } from 'primereact/inputnumber'
-import { AccountTypeEntity, type TransactionType } from '@src/types/transactions'
-import Button from '../tailwind-button'
+import { type AccountTypeEntity, type TransactionType } from '@src/types/transactions'
 import useTransaction from '@src/hooks/useTransaction'
 import { useRef } from 'react'
+import { Button } from 'primereact/button'
 interface Props {
   transactionTypes: TransactionType[]
   accountTypes: AccountTypeEntity[]
