@@ -1,5 +1,5 @@
 import { supabase } from '@src/supabaseClient'
-import TransactionEntity from '@src/types/transactions'
+import { type TransactionCreationType } from '@src/types/transactions'
 
 export const getAllTransactionsByUser = async (userId: number, langCode: string) => {
   try {
@@ -30,7 +30,7 @@ export const getAllTransactionTypes = async (langCode: string) => {
   }
 }
 
-export const InsertTransactionAndReturnId = async (transaction: TransactionEntity) => {
+export const InsertTransactionAndReturnId = async (transaction: TransactionCreationType) => {
   try {
     const { data, error } = await supabase.rpc('insert_transaction_and_return_id', transaction)
 

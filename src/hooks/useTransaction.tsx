@@ -1,12 +1,14 @@
 import { DATE_FORMAT } from '@src/consts/dateFormats'
-import { InsertTransactionAndReturnId, getAllAccountTypes, getAllTransactionTypes } from '@src/services/transactions'
-import { AccountTypeEntity, type TransactionCreateOptionsType, type TransactionType, type TransactionEntity } from '@src/types/transactions'
+import { InsertTransactionAndReturnId, getAllAccountTypes, getAllTransactionTypes, getAllTransactionsByUser } from '@src/services/transactions'
+import { useTransactionsStore } from '@src/store/transactions'
+import type TransactionEntity from '@src/types/transactions'
+import { type AccountTypeEntity, type TransactionCreateOptionsType, type TransactionType, type TransactionCreationType } from '@src/types/transactions'
 import { getFormattedDate } from '@src/utils/date'
 import { DateTime } from 'luxon'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const transactionInitialState: TransactionEntity = {
+const transactionInitialState: TransactionCreationType = {
   amount: '0',
   transaction_category_id: 1,
   transaction_type_id: 1,
@@ -20,6 +22,7 @@ const transactionInitialState: TransactionEntity = {
 const useTransaction = () => {
   const { i18n } = useTranslation()
   const [transaction, setTransaction] = useState(transactionInitialState)
+  const [setTransactions, addTransaction] = useTransactionsStore(state => [state.setTransactions, state.addTransaction])
 
   const handleTransactionTypesLoad = async (): Promise<TransactionType[]> => {
     const transactionTypesFound = await getAllTransactionTypes(i18n.language)
@@ -31,6 +34,14 @@ const useTransaction = () => {
     const accountTypesFound = await getAllAccountTypes(i18n.language)
 
     return accountTypesFound
+  }
+
+  const handleTransactionsLoad = async (): Promise<TransactionEntity[]> => {
+    const transactionsFound = await getAllTransactionsByUser(1, i18n.language)
+    
+    if (transactionsFound) setTransactions(transactionsFound)
+
+    return transactionsFound
   }
 
   const handleTransactionChange = (propName: TransactionCreateOptionsType, value: any) => {
@@ -58,12 +69,13 @@ const useTransaction = () => {
       }
     }
 
-    console.log(dataSend)
-    await InsertTransactionAndReturnId(dataSend)
+    const transactionId = await InsertTransactionAndReturnId(dataSend)
+
+    if (transactionId) addTransaction({ ...dataSend, id: transactionId })
   }
 
   return (
-    { transaction, handleTransactionTypesLoad, handleAccountTypesLoad, handleTransactionChange, handleTransactionCreation }
+    { transaction, handleTransactionTypesLoad, handleAccountTypesLoad, handleTransactionsLoad, handleTransactionChange, handleTransactionCreation }
   )
 }
 export default useTransaction
