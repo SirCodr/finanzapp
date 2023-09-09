@@ -30,9 +30,9 @@ export const getAllTransactionTypes = async (langCode: string) => {
   }
 }
 
-export const InsertTransactionAndReturnId = async (transaction: TransactionCreationType) => {
+export const InsertTransactionAndReturnId = async (transaction: TransactionCreationType, lang_code: string) => {
   try {
-    const { data, error } = await supabase.rpc('insert_transaction_and_return_id', transaction)
+    const { data, error } = await supabase.rpc('insert_and_return_transaction', { ...transaction, lang_code })
 
     if (error) throw new Error(error.message)
 
