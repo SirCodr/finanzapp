@@ -1,4 +1,3 @@
-import { getAllTransactionsByUser } from '@services/transactions'
 import TransactionItem from '@src/components/DataTable/TransactionItem'
 import { getAppTitle } from '@src/utils/app'
 import { useQuery } from '@tanstack/react-query'

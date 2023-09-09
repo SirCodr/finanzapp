@@ -9,6 +9,7 @@ import { type AccountTypeEntity, type TransactionType } from '@src/types/transac
 import useTransaction from '@src/hooks/useTransaction'
 import { useRef } from 'react'
 import { Button } from 'primereact/button'
+import { useMutation } from '@tanstack/react-query'
 interface Props {
   transactionTypes: TransactionType[]
   accountTypes: AccountTypeEntity[]
@@ -18,6 +19,10 @@ const TransactionCreateForm = ({ transactionTypes, accountTypes }: Props) => {
   const formRef = useRef(null)
   const { t, i18n } = useTranslation(['transactions', 'results'])
   const { transaction, handleTransactionChange, handleTransactionCreation } = useTransaction()
+
+  const mutation = useMutation({
+    mutationFn: handleTransactionCreation
+  })
 
   addLocale('es', {
     firstDayOfWeek: 1,
@@ -109,7 +114,7 @@ const TransactionCreateForm = ({ transactionTypes, accountTypes }: Props) => {
         showIcon
         required
       />
-      <Button label={t('transactions:save')} type='button' onClick={handleTransactionCreation} />
+      <Button label={t(`transactions:${mutation.isLoading ? 'saving' : 'save'}`)} type='button' onClick={mutation.mutate} loading={mutation.isLoading} />
       </form>
   )
 }

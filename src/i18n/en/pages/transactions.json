@@ -6,5 +6,6 @@
   "accountType": "Account type",
   "description": "Description",
   "date": "Date",
-  "save": "Save"
+  "save": "Save",
+  "saving": "Saving"
 }

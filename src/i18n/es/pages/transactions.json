@@ -6,5 +6,6 @@
   "accountType": "Tipo de cuenta",
   "description": "Descripción",
   "date": "Fecha",
-  "save": "Guardar"
+  "save": "Guardar",
+  "saving": "Guardando"
 }

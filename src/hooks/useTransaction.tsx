@@ -69,9 +69,11 @@ const useTransaction = () => {
       }
     }
 
-    const transactionId = await InsertTransactionAndReturnId(dataSend, i18n.language)
+    const newTransaction = await InsertTransactionAndReturnId(dataSend, i18n.language)
 
-    if (transactionId) addTransaction({ ...dataSend, id: transactionId })
+    if (newTransaction) addTransaction(newTransaction)
+
+    return newTransaction
   }
 
   return (
