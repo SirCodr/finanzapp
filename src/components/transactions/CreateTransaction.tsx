@@ -104,7 +104,6 @@ const TransactionCreateForm = ({ transactionTypes, accountTypes }: Props) => {
         required
       />
       <InputText name='description' value={transaction.description} onChange={(e) => { handleTransactionChange('description', e.target.value) }} placeholder={t('transactions:description')} />
-      {/* TODO: Default value is today day */}
       <Calendar
         name='date'
         value={transaction.date}

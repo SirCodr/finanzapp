@@ -2,7 +2,9 @@ import type { Database } from './supabase'
 
 export type TransactionEntity = Omit<Database['public']['Tables']['transactions']['Row'], 'created_at'>
 
-export type TransactionCreationType = Omit<Database['public']['Tables']['transactions']['Row'], 'id' | 'created_at'>
+export type TransactionCreationType = Omit<Database['public']['Tables']['transactions']['Row'], 'id' | 'date' | 'created_at'> & {
+  date: Date
+}
 
 export type TransactionCreateOptionsType = keyof TransactionCreationType
 

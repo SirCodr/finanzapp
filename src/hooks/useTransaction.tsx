@@ -15,7 +15,7 @@ const transactionInitialState: TransactionCreationType = {
   origin_account_type_id: 1,
   destination_account_type_id: null,
   description: '',
-  date: '',
+  date: new Date(),
   user_id: 1
 }
 
