@@ -1,4 +1,4 @@
-import TransactionCreateForm from '@src/components/transactions/CreateTransaction'
+import TransactionCreateForm from '@src/components/transactions/TransactionCreateForm'
 import useTransaction from '@src/hooks/useTransaction'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'

@@ -19,9 +19,9 @@ const transactionInitialState: TransactionCreationType = {
   user_id: 1
 }
 
-const useTransaction = () => {
+const useTransaction = (initialTransactionValue: TransactionCreationType | undefined) => {
   const { i18n } = useTranslation()
-  const [transaction, setTransaction] = useState(transactionInitialState)
+  const [transaction, setTransaction] = useState(initialTransactionValue ?? transactionInitialState)
   const [setTransactions, addTransaction] = useTransactionsStore(state => [state.setTransactions, state.addTransaction])
 
   const handleTransactionTypesLoad = async (): Promise<TransactionType[]> => {

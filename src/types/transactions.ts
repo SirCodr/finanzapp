@@ -8,6 +8,12 @@ export type TransactionCreationType = Omit<Database['public']['Tables']['transac
 
 export type TransactionCreateOptionsType = keyof TransactionCreationType
 
+export type TransactionItemDisplay = {
+  transaction_type: string
+  description: string
+  amount: string
+}
+
 export type TransactionType = {
   id: number
   name: string
