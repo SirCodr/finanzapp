@@ -16,12 +16,13 @@ interface Props {
 }
 
 const TransactionCreateForm = ({ transactionTypes, accountTypes }: Props) => {
-  const formRef = useRef(null)
+  const firstFormChildRef = useRef<HTMLElement>(null)
   const { t, i18n } = useTranslation(['transactions', 'results'])
   const { transaction, handleTransactionChange, handleTransactionCreation } = useTransaction()
 
   const mutation = useMutation({
-    mutationFn: handleTransactionCreation
+    mutationFn: handleTransactionCreation,
+    onSuccess: () => firstFormChildRef.current?.focus()
   })
 
   addLocale('es', {
@@ -70,7 +71,7 @@ const TransactionCreateForm = ({ transactionTypes, accountTypes }: Props) => {
   })
 
   return (
-    <form className='flex flex-col gap-y-2' ref={formRef}>
+    <form className='flex flex-col gap-y-2'>
       <InputNumber
         name='amount'
         value={Number(transaction.amount)}
@@ -80,6 +81,7 @@ const TransactionCreateForm = ({ transactionTypes, accountTypes }: Props) => {
         locale='en-US'
         minFractionDigits={0}
         placeholder={t('transactions:amount')}
+        ref={firstFormChildRef}
         required
       />
       <SelectButton
