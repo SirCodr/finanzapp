@@ -11,6 +11,7 @@ import useTransaction from '@src/hooks/useTransaction'
 import { useTransactionsStore } from '@src/store/transactions'
 import TransactionEditForm from '@src/components/transactions/TransactionEditForm'
 import { type TransactionItemDisplay } from '@src/types/transactions'
+import { getTransactionEditById } from '@src/services/transactions'
 
 const TransactionsPage = () => {
   const { t } = useTranslation(['pages', 'transactions'])
@@ -21,11 +22,11 @@ const TransactionsPage = () => {
   } = useTransaction()
   const transactions = useTransactionsStore((state) => state.transactions)
   const [isCreationModalVisible, showCreationModal] = useState(false)
-  const [transactionEditSelected, setTransactionEdit] =
-    useState<TransactionItemDisplay | null>(null)
+  const [transactionId, setTransactionId] = useState<number | null>(null)
 
-  const showTransactionEditModal = (transaction: TransactionItemDisplay | null) =>
-    setTransactionEdit(transaction)
+  const showTransactionEditModal = (transactionId: number) => {
+    setTransactionId(transactionId)
+  }
 
   const { isLoading, error } = useQuery({
     queryKey: ['transactions'],
@@ -39,7 +40,7 @@ const TransactionsPage = () => {
   } = useQuery({
     queryKey: ['transactionTypes'],
     queryFn: handleTransactionTypesLoad,
-    enabled: isCreationModalVisible
+    enabled: isCreationModalVisible || Boolean(transactionId)
   })
 
   const {
@@ -49,8 +50,16 @@ const TransactionsPage = () => {
   } = useQuery({
     queryKey: ['accountTypes'],
     queryFn: handleAccountTypesLoad,
-    enabled: isCreationModalVisible
+    enabled: isCreationModalVisible || Boolean(transactionId)
   })
+
+  const { isLoading: isTransactionEditLoading,
+    error: transactionEditError,
+    data: transactionEdit } = useQuery({
+    queryKey: ['transactionEdit'],
+    queryFn: async() => getTransactionEditById(transactionId),
+    enabled: Boolean(transactionId)
+  })  
 
   useEffect(() => {
     document.title = getAppTitle(t('pages:transactions'))
@@ -67,7 +76,7 @@ const TransactionsPage = () => {
         itemTemplate={(transaction: TransactionItemDisplay) => (
           <TransactionItem
             {...transaction}
-            onClick={() => { showTransactionEditModal(transaction) }}
+            onClick={() => showTransactionEditModal(transaction.id)}
           />
         )}
         rows={20}
@@ -99,18 +108,18 @@ const TransactionsPage = () => {
           />
         </Dialog>
       )}
-      {Boolean(transactionEditSelected) && (
+      {(!isTransactionEditLoading && transactionId === transactionEdit.id) && (
         <Dialog
           header={t('transactions:newTransaction')}
           visible
           onHide={() => {
-            setTransactionEdit(null)
+            setTransactionId(null)
           }}
         >
           <TransactionEditForm
             transactionTypes={transactionTypes ?? []}
             accountTypes={accountTypes ?? []}
-            transaction={transactionEditSelected}
+            transaction={transactionEdit}
           />
         </Dialog>
       )}

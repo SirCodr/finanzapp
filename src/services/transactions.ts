@@ -41,6 +41,7 @@ export const InsertTransactionAndReturnId = async (transaction: TransactionCreat
     console.error('Error on transaction insert: ', error)
   }
 }
+
 export const getAllAccountTypes = async (langCode: string) => {
   try {
     const { data, error } = await supabase.rpc('get_all_account_types', {
@@ -52,5 +53,19 @@ export const getAllAccountTypes = async (langCode: string) => {
     return data
   } catch (error) {
     console.error('Error on account types load: ', error)
+  }
+}
+
+export const getTransactionEditById = async (id: number) => {
+  try {
+    const { data, error } = await supabase.rpc('get_edit_transaction_by_id', {
+      id_param: id
+    })
+
+    if (error) throw new Error(error.message)
+
+    return data
+  } catch (error) {
+    console.error('Error on transaction edit load: ', error)
   }
 }

@@ -466,7 +466,27 @@ export interface Database {
           date: string
         }[]
       }
-      insert_transaction_and_return_id: {
+      get_edit_transaction_by_id: {
+        Args: {
+          id_param: number
+        }
+        Returns: Record<string, unknown>
+      }
+      get_last_transaction: {
+        Args: {
+          lang_code: string
+        }
+        Returns: {
+          id: number
+          transaction_type: string
+          transaction_category: string
+          origin_account_type: string
+          description: string
+          amount: string
+          date: string
+        }[]
+      }
+      insert_and_return_transaction: {
         Args: {
           transaction_type_id: number
           transaction_category_id: number
@@ -476,8 +496,9 @@ export interface Database {
           description: string
           amount: string
           date: string
+          lang_code: string
         }
-        Returns: number
+        Returns: Record<string, unknown>
       }
     }
     Enums: {

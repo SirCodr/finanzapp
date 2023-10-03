@@ -79,7 +79,6 @@ const TransactionEditForm = ({
     today: 'Hoy',
     clear: 'Limpiar'
   })
-console.log(transaction);
 
   return (
     <form className='flex flex-col gap-y-2'>
@@ -132,7 +131,7 @@ console.log(transaction);
       />
       <Calendar
         name='date'
-        value={transactionState.date}
+        value={new Date(transactionState.date)}
         onChange={(e) => {
           handleTransactionChange('date', e.value)
         }}
