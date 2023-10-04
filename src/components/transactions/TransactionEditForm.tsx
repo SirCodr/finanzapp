@@ -14,6 +14,8 @@ import useTransaction from '@src/hooks/useTransaction'
 import { useRef } from 'react'
 import { Button } from 'primereact/button'
 import { useMutation } from '@tanstack/react-query'
+import { editTransactionById } from '@src/services/transactions'
+import { useTransactionsStore } from '@src/store/transactions'
 interface Props {
   transactionTypes: TransactionType[]
   accountTypes: AccountTypeEntity[]
@@ -27,12 +29,25 @@ const TransactionEditForm = ({
 }: Props) => {
   const firstFormChildRef = useRef<HTMLElement>(null)
   const { t, i18n } = useTranslation(['transactions', 'results'])
-  const { transaction: transactionState,handleTransactionChange, handleTransactionCreation } =
-    useTransaction(transaction)
+  const {
+    transaction: transactionState,
+    handleTransactionChange,
+    handleTransactionCreation
+  } = useTransaction(transaction)
+  const updateTransaction = useTransactionsStore(
+    (state) => state.updateTransaction
+  )
 
   const mutation = useMutation({
-    mutationFn: handleTransactionCreation,
-    onSuccess: () => firstFormChildRef.current?.focus()
+    mutationFn: () => editTransactionById({
+      ...transactionState,
+      id: transaction.id,
+      date: transactionState.date.toString()
+    }),
+    onSuccess: (data, error, variables, context) => {
+      updateTransaction(data[0])
+    }
+    
   })
 
   addLocale('es', {

@@ -5,6 +5,7 @@ interface TransactionState {
   transactions: TransactionEntity[]
   setTransactions: (transactions: TransactionEntity[]) => void
   addTransaction: (transaction: TransactionEntity) => void
+  updateTransaction: (transaction: TransactionEntity) => void
 }
 
 export const useTransactionsStore = create<TransactionState>()((set) => ({
@@ -14,5 +15,17 @@ export const useTransactionsStore = create<TransactionState>()((set) => ({
   },
   addTransaction: (transaction) => {
     set((state) => ({ transactions: [...state.transactions, transaction] }))
+  },
+  updateTransaction: (transaction) => {
+    set((state) => {
+      const transactionIndexFound = state.transactions.findIndex(transactionItem => transactionItem.id === transaction.id)
+      const transactionsDraft = [...state.transactions]
+
+      if (transactionIndexFound !== -1) {
+        transactionsDraft[transactionIndexFound] = transaction
+      }
+
+      return { transactions: transactionsDraft }
+    })
   }
 }))

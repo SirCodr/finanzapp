@@ -6,6 +6,8 @@ export type TransactionCreationType = Omit<Database['public']['Tables']['transac
   date: Date
 }
 
+export type TransactionEditType = Omit<Database['public']['Tables']['transactions']['Row'], 'user_id' | 'created_at'>
+
 export type TransactionCreateOptionsType = keyof TransactionCreationType
 
 export type TransactionItemDisplay = {
