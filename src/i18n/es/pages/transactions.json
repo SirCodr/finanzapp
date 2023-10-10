@@ -4,6 +4,7 @@
   "amount": "Valor",
   "transactionType": "Tipo de transacción",
   "accountType": "Tipo de cuenta",
+  "category": "Categoría",
   "description": "Descripción",
   "date": "Fecha",
   "save": "Guardar",

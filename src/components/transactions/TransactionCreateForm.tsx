@@ -12,15 +12,19 @@ import {
   type TransactionType
 } from '@src/types/transactions'
 import useTransaction from '@src/hooks/useTransaction'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { Button } from 'primereact/button'
 import { useMutation } from '@tanstack/react-query'
+import { Dialog } from 'primereact/dialog'
+import CategoriesSelection from '../CategoriesSelection'
 interface Props {
   transactionTypes: TransactionType[]
   accountTypes: AccountTypeEntity[]
 }
 
 const TransactionCreateForm = ({ transactionTypes, accountTypes }: Props) => {
+  const [isCategoriesSelectionOpen, setCategoriesSelectionOpen] =
+    useState(false)
   const firstFormChildRef = useRef<HTMLElement>(null)
   const { t, i18n } = useTranslation(['transactions', 'results'])
   const { transaction, handleTransactionChange, handleTransactionCreation } =
@@ -77,85 +81,97 @@ const TransactionCreateForm = ({ transactionTypes, accountTypes }: Props) => {
   })
 
   return (
-    <form className='flex flex-col gap-y-3'>
-      <InputNumber
-        name='amount'
-        value={Number(transaction.amount)}
-        onValueChange={(e) => {
-          handleTransactionChange('amount', e.value)
-        }}
-        mode='currency'
-        currency='USD'
-        locale='en-US'
-        minFractionDigits={0}
-        placeholder={t('transactions:amount')}
-        ref={firstFormChildRef}
-        required
-      />
-      <SelectButton
-        name='transaction_type_id'
-        value={transaction.transaction_type_id}
-        onChange={(e) => {
-          handleTransactionChange('transaction_type_id', e.value)
-        }}
-        options={transactionTypes}
-        optionLabel='name'
-        optionValue='id'
-        required
-      />
-      <HorizontalGroup>
-        <VerticalGroup
-          className='flex-1'
-          label={t('transactions:selectAccounType')}
-        >
-          <Dropdown
-            name='origin_account_type_id'
-            value={transaction.origin_account_type_id}
-            onChange={(e) => {
-              handleTransactionChange('origin_account_type_id', e.value)
-            }}
-            options={accountTypes}
-            optionLabel='name'
-            optionValue='id'
-            placeholder={t('transactions:selectAccounType')}
-            className='w-full md:w-14rem'
-            emptyMessage={t('results:noResultsFouund')}
-            required
-          />
-        </VerticalGroup>
-      </HorizontalGroup>
-      <HorizontalGroup>
-        <VerticalGroup label={t('transactions:description')}>
-          <InputText
-            name='description'
-            value={transaction.description}
-            onChange={(e) => {
-              handleTransactionChange('description', e.target.value)
-            }}
-            placeholder={t('transactions:description')}
-          />
-        </VerticalGroup>
-        <VerticalGroup label={t('transactions:date')}>
-          <Calendar
-            name='date'
-            value={transaction.date}
-            onChange={(e) => {
-              handleTransactionChange('date', e.value)
-            }}
-            locale={i18n.language}
-            placeholder={t('transactions:date')}
-            showIcon
-            required
-          />
-        </VerticalGroup>
-      </HorizontalGroup>
-      <Button
-        label={t(`transactions:${mutation.isLoading ? 'saving' : 'save'}`)}
-        type='button'
-        onClick={mutation.mutate}
-        loading={mutation.isLoading}
-      />
-    </form>
+    <>
+      <form className='flex flex-col gap-y-3'>
+        <InputNumber
+          name='amount'
+          value={Number(transaction.amount)}
+          onValueChange={(e) => {
+            handleTransactionChange('amount', e.value)
+          }}
+          mode='currency'
+          currency='USD'
+          locale='en-US'
+          minFractionDigits={0}
+          placeholder={t('transactions:amount')}
+          ref={firstFormChildRef}
+          required
+        />
+        <SelectButton
+          name='transaction_type_id'
+          value={transaction.transaction_type_id}
+          onChange={(e) => {
+            handleTransactionChange('transaction_type_id', e.value)
+          }}
+          options={transactionTypes}
+          optionLabel='name'
+          optionValue='id'
+          required
+        />
+        <HorizontalGroup>
+          <VerticalGroup label={t('transactions:category')}>
+            <button type='button' onClick={() => setCategoriesSelectionOpen(true)}>Categoria pre seleccionada</button>
+          </VerticalGroup>
+          <VerticalGroup
+            className='flex-1'
+            label={t('transactions:selectAccounType')}
+          >
+            <Dropdown
+              name='origin_account_type_id'
+              value={transaction.origin_account_type_id}
+              onChange={(e) => {
+                handleTransactionChange('origin_account_type_id', e.value)
+              }}
+              options={accountTypes}
+              optionLabel='name'
+              optionValue='id'
+              placeholder={t('transactions:selectAccounType')}
+              className='w-full md:w-14rem'
+              emptyMessage={t('results:noResultsFouund')}
+              required
+            />
+          </VerticalGroup>
+        </HorizontalGroup>
+        <HorizontalGroup>
+          <VerticalGroup label={t('transactions:description')}>
+            <InputText
+              name='description'
+              value={transaction.description}
+              onChange={(e) => {
+                handleTransactionChange('description', e.target.value)
+              }}
+              placeholder={t('transactions:description')}
+            />
+          </VerticalGroup>
+          <VerticalGroup label={t('transactions:date')}>
+            <Calendar
+              name='date'
+              value={transaction.date}
+              onChange={(e) => {
+                handleTransactionChange('date', e.value)
+              }}
+              locale={i18n.language}
+              placeholder={t('transactions:date')}
+              showIcon
+              required
+            />
+          </VerticalGroup>
+        </HorizontalGroup>
+        <Button
+          label={t(`transactions:${mutation.isLoading ? 'saving' : 'save'}`)}
+          type='button'
+          onClick={mutation.mutate}
+          loading={mutation.isLoading}
+        />
+      </form>
+      <Dialog
+        header='Categorias'
+        visible={isCategoriesSelectionOpen}
+        onHide={() => setCategoriesSelectionOpen(false)}
+      >
+        <CategoriesSelection />
+      </Dialog>
+    </>
   )
 }
 export default TransactionCreateForm

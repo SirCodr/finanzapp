@@ -4,6 +4,7 @@
   "amount": "Amount",
   "transactionType": "Transaction type",
   "accountType": "Account type",
+  "category": "Category",
   "description": "Description",
   "date": "Date",
   "save": "Save",
