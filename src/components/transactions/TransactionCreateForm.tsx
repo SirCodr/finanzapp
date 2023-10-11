@@ -16,7 +16,7 @@ import { useRef, useState } from 'react'
 import { Button } from 'primereact/button'
 import { useMutation } from '@tanstack/react-query'
 import { Dialog } from 'primereact/dialog'
-import CategoriesSelection from '../CategoriesSelection'
+import CategoriesSelection from '../categories-selection'
 interface Props {
   transactionTypes: TransactionType[]
   accountTypes: AccountTypeEntity[]
