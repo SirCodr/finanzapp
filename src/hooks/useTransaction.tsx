@@ -10,8 +10,8 @@ import { useTranslation } from 'react-i18next'
 
 const transactionInitialState: TransactionCreationType = {
   amount: '0',
-  transaction_category_id: 1,
   transaction_type_id: 1,
+  transaction_category_id: 1,
   origin_account_type_id: 1,
   destination_account_type_id: null,
   description: '',

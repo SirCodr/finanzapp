@@ -25,6 +25,7 @@ interface Props {
 const TransactionCreateForm = ({ transactionTypes, accountTypes }: Props) => {
   const [isCategoriesSelectionOpen, setCategoriesSelectionOpen] =
     useState(false)
+  const [subcategorySelected, setSubcategorySelected] = useState('')
   const firstFormChildRef = useRef<HTMLElement>(null)
   const { t, i18n } = useTranslation(['transactions', 'results'])
   const { transaction, handleTransactionChange, handleTransactionCreation } =
@@ -109,8 +110,13 @@ const TransactionCreateForm = ({ transactionTypes, accountTypes }: Props) => {
           required
         />
         <HorizontalGroup>
-          <VerticalGroup label={t('transactions:category')}>
-            <button type='button' onClick={() => setCategoriesSelectionOpen(true)}>Categoria pre seleccionada</button>
+          <VerticalGroup className='flex-1' label={t('transactions:category')}>
+            <InputText
+              onClick={() => setCategoriesSelectionOpen(true)}
+              value={subcategorySelected}
+              readOnly
+              className='text-start'
+            />
           </VerticalGroup>
           <VerticalGroup
             className='flex-1'
@@ -169,7 +175,13 @@ const TransactionCreateForm = ({ transactionTypes, accountTypes }: Props) => {
         visible={isCategoriesSelectionOpen}
         onHide={() => setCategoriesSelectionOpen(false)}
       >
-        <CategoriesSelection />
+        <CategoriesSelection
+          onChange={(subcategorySelected) => {
+            handleTransactionChange('transaction_category_id', subcategorySelected.id)
+            setSubcategorySelected(subcategorySelected.name)
+            setCategoriesSelectionOpen(false)
+          }}
+        />
       </Dialog>
     </>
   )

@@ -27,7 +27,9 @@ const CategoriesSelection = ({ onChange = () => {} }) => {
   ]
 
   useEffect(() => {
-    onChange(subcategorySelected)
+    if (subcategorySelected) {
+      onChange(subcategorySelected)
+    }
   }, [subcategorySelected])
 
   return (
